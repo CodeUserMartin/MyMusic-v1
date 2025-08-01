@@ -5,54 +5,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyMusic | 2025-v1 </title>
+    <link rel="stylesheet" href="./src/output.css">
 </head>
 
 <body>
-    <header>
-        <section>
-            <article id="mymusic-logo">
-                <img src="" alt="">
-            </article>
-            <article>
-                <h3>Your Music place, play it your way</h3>
-            </article>
-        </section>
-        <nav>
-            <section>
-                <article>
-                    <!-- Search icon -->
-                    <input type="text" id="text" placeholder="Search for folder" />
+    <div id="circle-bg" class="bg-[#1B3C53] w-full h-[320px]">
+        <header>
+            <section id="logo-div" class="flex flex-col justify-center items-center gap-6 w-[95%] mx-auto my-0">
+                <article id="mymusic-logo">
+                    <img src="./src/images/logo.png" class="rounded-4xl" alt="">
                 </article>
+                <div>
+                    <span class="bg-[#101E26] text-[#ECDFCC] text-xl p-3 rounded-2xl">Your Music place, play it your
+                        way</span>
+                </div>
             </section>
-        </nav>
-    </header>
-    <main>
-        <!-- Used to display folders -->
-        <section id="display-folders"></section>
-        <!-- Song, play, pause section -->
-        <article id="music-player"></article>
+            <nav>
+                <section class="my-3 mx-3">
+                    <article class="bg-[#001F3F]">
+                        <!-- Search icon -->
+                        <input type="text" id="text" class="w-full p-2 text-amber-50" placeholder="Search for folder" />
+                    </article>
+                </section>
+            </nav>
+        </header>
+        <main>
+            <!-- Used to display folders -->
+            <section id="display-folders"></section>
+            <!-- Song, play, pause section -->
+            <article id="music-player"></article>
 
-        <!-- Second page -->
-        <!-- section one -->
-        <section>
-            <article>
-                <h4>Taste of<br>Music</h4>
-            </article>
-        </section>
-
-        <!-- section two -->
-        <section>
-            <article>
-                <span>All time favorite</span>
-            </article>
-            <article>
-                <!-- displaying most fav/played songs -->
-            </article>
-        </section>
-    </main>
-    <footer>
-        <p>MyMusic &copy; 2025</p>
-    </footer>
+            <!-- Second page -->
+            <!-- section one -->
+            <section class="flex flex-col">
+                <div class="bg-[#101E26]">
+                    <h4 class="text-[#ECDFCC] text-7xl p-10">Taste of<br>Music</h4>
+                </div>
+                <!-- section two -->
+                <section class="bg-[#103766] h-96">
+                    <p class="bg-[#101E26] text-[#ECDFCC] mx-auto my-5 p-3 rounded-2xl text-4xl text-center w-[90%]">All time favorite</p>
+                    <div >
+                        <!-- displaying most fav/played songs -->
+                    </div>
+                </section>
+            </section>
+        </main>
+        <footer class="bg-[#001F3F] p-4">
+            <p class="text-[#ECDFCC] text-center text-xl">MyMusic &copy; 2025</p>
+        </footer>
+    </div>
 </body>
 
 </html>
