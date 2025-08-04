@@ -8,72 +8,92 @@
     <link rel="stylesheet" href="./src/output.css">
 </head>
 
-<body>
-    <div id="circle-bg" class="bg-[#1B3C53] w-full h-[380px] border border-red-500">
+<body class="relative">
+    <!-- Circle Div -->
+    <!-- <div id="circle-div" class="border-2 border-amber-700 absolute top-0 left-0 z-[-1]"> -->
+    <!-- Outer Cricle Div -->
+    <div id="outer-circle-div" class="bg-[#456882] relative z-[1] overflow-hidden">
+        <!--Inner Circle div -->
+        <div id="inner-circle-div" class="absolute top-0 left-0 bg-[#1B3C53] w-full h-[500px] -z-10 rounded-b-[100%] ">
+        </div>
         <header>
+            <!-- Logo & Heading container-->
             <section id="logo-div" class="flex flex-col justify-center items-center gap-6 w-[95%] mx-auto my-0">
-                <article id="mymusic-logo">
+                <div id="mymusic-logo">
                     <img src="./src/images/logo.png" class="rounded-4xl pt-4" alt="">
-                </article>
+                </div>
                 <div class="mx-4 p-4">
-                    <span class="bg-[#101E26] text-[#ECDFCC] text-xl p-3 rounded-2xl">Your Music place, play it your
+                    <span class="bg-[#101E26] text-[#ECDFCC] text-md p-3 rounded-2xl">Your Music place, play it your
                         way</span>
                 </div>
             </section>
+            <!-- Logo & Heading container end-->
             <nav>
-                <section class="my-3 mx-3">
-                    <article class="bg-[#001F3F] rounded-2xl">
+                <!-- Search bar and search icon container -->
+                <section class="my-3 mx-auto w-[90%]">
+                    <div class="bg-[#001F3F] rounded-2xl">
                         <!-- Search icon -->
-                        <input type="text" id="text" class="w-full p-3 rounded-2xl text-amber-50" placeholder="Search for folder" />
-                    </article>
+                        <input type="text" id="text" class="w-full p-3 rounded-2xl text-amber-50"
+                            placeholder="Search for folder" />
+                    </div>
                 </section>
+                <!-- Search bar and search icon container end -->
             </nav>
         </header>
         <main>
             <!-- Used to display folders -->
-            <section id="display-folders"
-                class="border border-amber-950 p-4 bg-gray-600 flex justify-around items-center">
-                <div class="border border-yellow-500 w-[120px] h-[120px] bg-black">
+            <section id="display-folders" class="border border-amber-950 p-3 grid grid-cols-3 place-items-center gap-3">
+                <div class="border  w-[120px] h-[120px] bg-black">
                     <div></div>
                 </div>
-                <div class="border border-yellow-500 w-[120px] h-[120px] bg-black">
+                <div class="border  w-[120px] h-[120px] bg-black">
                     <div></div>
                 </div>
-                <div class="border border-yellow-500 w-[120px] h-[120px] bg-black">
+                <div class="border  w-[120px] h-[120px] bg-black">
+                    <div></div>
+                </div>
+                <div class="border  w-[120px] h-[120px] bg-black">
+                    <div></div>
+                </div>
+                <div class="border  w-[120px] h-[120px] bg-black">
+                    <div></div>
+                </div>
+                <div class="border  w-[120px] h-[120px] bg-black">
                     <div></div>
                 </div>
             </section>
             <!-- Song, play, pause section -->
             <article id="music-player"></article>
+    </div>
 
-            <!-- Second page -->
-            <!-- section one -->
-            <section class="flex flex-col">
-                <div class="bg-[#101E26]">
-                    <h4 class="text-[#ECDFCC] text-7xl p-10">Taste of<br>Music</h4>
+    <!-- Second page -->
+    <!-- section one -->
+    <section class="flex flex-col">
+        <div class="bg-[#101E26]">
+            <h4 class="text-[#ECDFCC] text-7xl p-10">Taste of<br>Music</h4>
+        </div>
+        <!-- section two -->
+        <section class="bg-[#103766] h-96">
+            <p class="bg-[#101E26] text-[#ECDFCC] mx-auto my-5 p-3 rounded-2xl text-4xl text-center w-[90%]">All
+                time favorite</p>
+            <div class="flex flex-col justify-around items-center gap-4 px-4">
+                <!-- displaying most fav/played songs -->
+                <div class="border  w-full h-[70px] bg-black">
+                    <div></div>
                 </div>
-                <!-- section two -->
-                <section class="bg-[#103766] h-96">
-                    <p class="bg-[#101E26] text-[#ECDFCC] mx-auto my-5 p-3 rounded-2xl text-4xl text-center w-[90%]">All
-                        time favorite</p>
-                    <div class="flex flex-col justify-around items-center gap-4 px-4">
-                        <!-- displaying most fav/played songs -->
-                        <div class="border border-yellow-500 w-full h-[70px] bg-black">
-                            <div></div>
-                        </div>
-                        <div class="border border-yellow-500 w-full h-[70px] bg-black">
-                            <div></div>
-                        </div>
-                        <div class="border border-yellow-500 w-full h-[70px] bg-black">
-                            <div></div>
-                        </div>
-                    </div>
-                </section>
-            </section>
-        </main>
-        <footer class="bg-[#001F3F] p-4">
-            <p class="text-[#ECDFCC] text-center text-xl">MyMusic &copy; 2025</p>
-        </footer>
+                <div class="border  w-full h-[70px] bg-black">
+                    <div></div>
+                </div>
+                <div class="border  w-full h-[70px] bg-black">
+                    <div></div>
+                </div>
+            </div>
+        </section>
+    </section>
+    </main>
+    <footer class="bg-[#001F3F] p-4">
+        <p class="text-[#ECDFCC] text-center text-xl">MyMusic &copy; 2025</p>
+    </footer>
 </body>
 
 </html>
