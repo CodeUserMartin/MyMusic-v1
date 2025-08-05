@@ -18,12 +18,12 @@
         </div>
         <header>
             <!-- Logo & Heading container-->
-            <section id="logo-div" class="flex flex-col justify-center items-center gap-6 w-[95%] mx-auto my-0">
-                <div id="mymusic-logo" class="w-[90%]">
-                    <img src="./src/images/logo.png" class="rounded-4xl pt-4" alt="">
+            <section id="logo-div" class="flex flex-col justify-center items-center gap-6 w-[95%] mx-auto my-0 border border-orange-400 md:flex-row md:gap-0">
+                <div id="mymusic-logo" class="w-[90%] md:w-[50%]">
+                    <img src="./src/images/logo.png" class="rounded-4xl p-4" alt="">
                 </div>
-                <div class="mx-4 p-4">
-                    <span class="bg-[#101E26] text-[#ECDFCC] text-md p-3 rounded-2xl">Your Music place, play it your
+                <div class="p-5">
+                    <span class="bg-[#101E26] text-[#ECDFCC] text-md p-3 rounded-2xl md:text-lg md:font-semibold md:py-12 md:px-8">Your Music place, play it your
                         way</span>
                 </div>
             </section>
@@ -31,9 +31,9 @@
             <nav>
                 <!-- Search bar and search icon container -->
                 <section class="my-3 mx-auto w-[90%]">
-                    <div class="bg-[#001F3F] rounded-2xl">
+                    <div class="bg-[#001F3F] rounded-2xl md:p-2.5">
                         <!-- Search icon -->
-                        <input type="text" id="text" class="w-full p-3 rounded-2xl text-amber-50"
+                        <input type="text" id="text" class="w-full p-3 rounded-2xl text-amber-50 md:text-lg"
                             placeholder="Search for folder" />
                     </div>
                 </section>
@@ -42,7 +42,16 @@
         </header>
         <main>
             <!-- Used to display folders -->
-            <section id="display-folders" class=" p-3 grid grid-cols-3 place-items-center gap-3">
+            <section id="display-folders" class=" p-3 grid grid-cols-3 place-items-center gap-3 h-[235px] overflow-y-scroll border border-amber-300 md:grid-cols-5">
+                <div class="border  w-[100px] h-[100px] bg-black">
+                    <div></div>
+                </div>
+                <div class="border  w-[100px] h-[100px] bg-black">
+                    <div></div>
+                </div>
+                <div class="border  w-[100px] h-[100px] bg-black">
+                    <div></div>
+                </div>
                 <div class="border  w-[100px] h-[100px] bg-black">
                     <div></div>
                 </div>
@@ -64,12 +73,25 @@
             </section>
             <!-- Song, play, pause section -->
             <article id="music-player"
-                class="bg-[#1B3C53] w-[90%] mx-auto my-2.5 p-5 rounded-3xl flex justify-between items-center gap-1.5">
-                <div class="w-[50px] h-[50px] bg-black">
+                class="bg-[#1B3C53] w-[90%] mx-auto my-2 p-3 rounded-3xl flex justify-between items-center gap-1.5">
+                <div class="w-[55px] h-[55px] bg-black">
                     <div></div>
                 </div>
                 <!-- Progress bar and music details holder -->
                 <div class="w-full p-1">
+                    <!-- play, pause, next button div holder -->
+                    <div class="flex items-center gap-2 justify-center p-2">
+                        <!-- Prev btn -->
+                        <div class="w-[20px] h-[20px] bg-black"></div>
+                        <!-- prev btn end -->
+                        <!-- play/pause btn -->
+                        <div class="w-[20px] h-[20px] bg-black"></div>
+                        <!-- play,pasue btn end -->
+                        <!-- next btn -->
+                        <div class="w-[20px] h-[20px] bg-black"></div>
+                        <!-- next btn end -->
+                    </div>
+                    <!-- play, pause, next button div holder end -->
                     <!-- Progress bar div -->
                     <!-- Progress bar outer div -->
                     <div class="bg-black w-full rounded-2xl p-1">
@@ -84,23 +106,11 @@
                     <!-- song details and controls div holder -->
                     <div class="flex justify-between items-center mt-2">
                         <!-- Music name -->
-                        <div class="border">
+                        <div class="">
                             <span class="text-[12px] text-white">Die for you ft.Grabbitz</span>
                         </div>
                         <!-- Music name end -->
-                        <!-- play, pause, next button div holder -->
-                        <div class="flex items-center gap-1 border-2">
-                            <!-- Prev btn -->
-                            <div class="w-[20px] h-[20px] bg-black"></div>
-                            <!-- prev btn end -->
-                            <!-- play/pause btn -->
-                            <div class="w-[20px] h-[20px] bg-black"></div>
-                            <!-- play,pasue btn end -->
-                            <!-- next btn -->
-                            <div class="w-[20px] h-[20px] bg-black"></div>
-                            <!-- next btn end -->
-                        </div>
-                        <!-- play, pause, next button div holder end -->
+
                         <!-- song duration timer div -->
                         <div>
                             <span class="text-white text-sm">1:24/5:50</span>
@@ -114,16 +124,22 @@
 
     <!-- Second page -->
     <!-- section one -->
-    <section class="flex flex-col">
-        <div class="bg-[#101E26]">
-            <h4 class="text-[#ECDFCC] text-7xl p-10">Taste of<br>Music</h4>
+    <section class="flex flex-col md:flex-row md:w-full md:h-[50vh]">
+        <div class="bg-[#101E26] md:w-[40%] md:flex md:justify-center md:items-center">
+            <h4 class="text-[#ECDFCC] text-7xl p-10 md: md:leading-[100px]">Taste of<br>Music</h4>
         </div>
         <!-- section two -->
-        <section class="bg-[#103766] h-96">
+        <section class="bg-[#103766] p-4 md:w-[60%]">
             <p class="bg-[#101E26] text-[#ECDFCC] mx-auto my-5 p-3 rounded-2xl text-4xl text-center w-[90%]">All
                 time favorite</p>
-            <div class="flex flex-col justify-around items-center gap-4 px-4">
+            <div class="grid grid-rows-1 gap-2 px-4 h-[250px] md:h-[300px] overflow-y-scroll">
                 <!-- displaying most fav/played songs -->
+                <div class="border  w-full h-[70px] bg-black">
+                    <div></div>
+                </div>
+                <div class="border  w-full h-[70px] bg-black">
+                    <div></div>
+                </div>
                 <div class="border  w-full h-[70px] bg-black">
                     <div></div>
                 </div>
