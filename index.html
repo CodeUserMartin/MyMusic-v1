@@ -8,22 +8,25 @@
     <link rel="stylesheet" href="./src/output.css">
 </head>
 
-<body class="relative">
+<body>
     <!-- Circle Div -->
     <!-- <div id="circle-div" class="border-2 border-amber-700 absolute top-0 left-0 z-[-1]"> -->
     <!-- Outer Cricle Div -->
-    <div id="outer-circle-div" class="bg-[#456882] relative z-[1] overflow-hidden">
+    <div id="outer-circle-div" class="bg-[#456882] relative z-[1] overflow-hidden border-2 border-b-white">
         <!--Inner Circle div -->
-        <div id="inner-circle-div" class="absolute top-0 left-0 bg-[#1B3C53] w-full h-[500px] -z-10 rounded-b-[100%] ">
+        <div id="inner-circle-div" class="absolute top-0 left-0 bg-[#1B3C53] w-full h-[500px] -z-10 rounded-b-[100%]">
         </div>
         <header>
             <!-- Logo & Heading container-->
-            <section id="logo-div" class="flex flex-col justify-center items-center gap-6 w-[95%] mx-auto my-0 border border-orange-400 md:flex-row md:gap-0">
+            <section id="logo-div"
+                class="flex flex-col justify-center items-center gap-6 w-[95%] mx-auto my-0 border border-orange-400 md:flex-row md:gap-0 lg:border-2 lg:border-b-black lg:gap-0">
                 <div id="mymusic-logo" class="w-[90%] md:w-[50%]">
                     <img src="./src/images/logo.png" class="rounded-4xl p-4" alt="">
                 </div>
                 <div class="p-5">
-                    <span class="bg-[#101E26] text-[#ECDFCC] text-md p-3 rounded-2xl md:text-lg md:font-semibold md:py-12 md:px-8">Your Music place, play it your
+                    <span
+                        class="bg-[#101E26] text-[#ECDFCC] text-md p-3 rounded-2xl md:text-lg md:font-semibold md:py-12 md:px-8 lg:text-3xl lg:px-8 lg:py-18">Your
+                        Music place, play it your
                         way</span>
                 </div>
             </section>
@@ -42,39 +45,49 @@
         </header>
         <main>
             <!-- Used to display folders -->
-            <section id="display-folders" class=" p-3 grid grid-cols-3 place-items-center gap-3 h-[235px] overflow-y-scroll border border-amber-300 md:grid-cols-5">
-                <div class="border  w-[100px] h-[100px] bg-black">
+            <section id="display-folders"
+                class=" w-[95%] min-h-[100px] max-h-[270px] md:max-h-[250px] lg:max-h-[300px] overflow-y-auto mx-auto my-0 p-3 grid grid-cols-3 place-items-center gap-3 border border-amber-300 md:grid-cols-5 lg:grid-cols-6">
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
                     <div></div>
                 </div>
-                <div class="border  w-[100px] h-[100px] bg-black">
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
                     <div></div>
                 </div>
-                <div class="border  w-[100px] h-[100px] bg-black">
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
                     <div></div>
                 </div>
-                <div class="border  w-[100px] h-[100px] bg-black">
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
                     <div></div>
                 </div>
-                <div class="border  w-[100px] h-[100px] bg-black">
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
                     <div></div>
                 </div>
-                <div class="border  w-[100px] h-[100px] bg-black">
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
                     <div></div>
                 </div>
-                <div class="border  w-[100px] h-[100px] bg-black">
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
                     <div></div>
                 </div>
-                <div class="border  w-[100px] h-[100px] bg-black">
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
                     <div></div>
                 </div>
-                <div class="border  w-[100px] h-[100px] bg-black">
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
+                    <div></div>
+                </div>
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
+                    <div></div>
+                </div>
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
+                    <div></div>
+                </div>
+                <div class="aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black">
                     <div></div>
                 </div>
             </section>
             <!-- Song, play, pause section -->
             <article id="music-player"
                 class="bg-[#1B3C53] w-[90%] mx-auto my-2 p-3 rounded-3xl flex justify-between items-center gap-1.5">
-                <div class="w-[55px] h-[55px] bg-black">
+                <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] bg-black">
                     <div></div>
                 </div>
                 <!-- Progress bar and music details holder -->
@@ -82,13 +95,13 @@
                     <!-- play, pause, next button div holder -->
                     <div class="flex items-center gap-2 justify-center p-2">
                         <!-- Prev btn -->
-                        <div class="w-[20px] h-[20px] bg-black"></div>
+                        <div class="aspect-square w-[20px] md:w-[40px] lg:w-[50px] bg-black"></div>
                         <!-- prev btn end -->
                         <!-- play/pause btn -->
-                        <div class="w-[20px] h-[20px] bg-black"></div>
+                        <div class="aspect-square w-[20px] md:w-[40px] lg:w-[50px] bg-black"></div>
                         <!-- play,pasue btn end -->
                         <!-- next btn -->
-                        <div class="w-[20px] h-[20px] bg-black"></div>
+                        <div class="aspect-square w-[20px] md:w-[40px] lg:w-[50px] bg-black"></div>
                         <!-- next btn end -->
                     </div>
                     <!-- play, pause, next button div holder end -->
@@ -107,13 +120,13 @@
                     <div class="flex justify-between items-center mt-2">
                         <!-- Music name -->
                         <div class="">
-                            <span class="text-[12px] text-white">Die for you ft.Grabbitz</span>
+                            <span class="text-[12px] md:text-lg lg:text-xl text-white">Die for you ft.Grabbitz</span>
                         </div>
                         <!-- Music name end -->
 
                         <!-- song duration timer div -->
                         <div>
-                            <span class="text-white text-sm">1:24/5:50</span>
+                            <span class="text-white text-sm md:text-lg lg:text-xl">1:24/5:50</span>
                         </div>
                         <!-- song duration timer div end -->
                     </div>
@@ -124,16 +137,29 @@
 
     <!-- Second page -->
     <!-- section one -->
-    <section class="flex flex-col md:flex-row md:w-full md:h-[50vh]">
-        <div class="bg-[#101E26] md:w-[40%] md:flex md:justify-center md:items-center">
+    <section class="flex flex-col md:flex-row md:w-full border-2 border-green-500">
+        <div class="bg-[#101E26] md:w-[30%] md:flex md:justify-center md:items-center">
             <h4 class="text-[#ECDFCC] text-7xl p-10 md: md:leading-[100px]">Taste of<br>Music</h4>
         </div>
         <!-- section two -->
-        <section class="bg-[#103766] p-4 md:w-[60%]">
+        <section class="bg-[#103766] p-4 md:w-[70%]">
             <p class="bg-[#101E26] text-[#ECDFCC] mx-auto my-5 p-3 rounded-2xl text-4xl text-center w-[90%]">All
                 time favorite</p>
-            <div class="grid grid-rows-1 gap-2 px-4 h-[250px] md:h-[300px] overflow-y-scroll">
+            <div
+                class="grid grid-rows-1 gap-2 px-4 py-3 overflow-y-scroll min-h-[100px] max-h-[300px] md:max-h-[300px] lg:max-h-[600px] lg:h-4/5 lg:py-7 lg:px-6 border-2 border-pink-400">
                 <!-- displaying most fav/played songs -->
+                <div class="border  w-full h-[70px] bg-black">
+                    <div></div>
+                </div>
+                <div class="border  w-full h-[70px] bg-black">
+                    <div></div>
+                </div>
+                <div class="border  w-full h-[70px] bg-black">
+                    <div></div>
+                </div>
+                <div class="border  w-full h-[70px] bg-black">
+                    <div></div>
+                </div>
                 <div class="border  w-full h-[70px] bg-black">
                     <div></div>
                 </div>
