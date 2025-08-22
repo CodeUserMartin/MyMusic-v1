@@ -3,6 +3,7 @@ console.log('JS Connected');
 document.addEventListener('DOMContentLoaded', () => {
 
     const displaySongFolderContainerEl = document.getElementById('display-folders');
+    const displaySongListContainerEl = document.getElementById('display-songs-container');
 
 
     fetchSongs();
@@ -45,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
+
         // RenderFolders to the DOM
 
         function renderFolder(folder) {
@@ -66,15 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="text-white">${folderTitle}</p>
                     <img src="${folderHref}/cover.jpg" alt= "${folderTitle}">
                     </div>
-                </div>
+            </div>
             `
 
             displaySongFolderContainerEl.appendChild(folderDiv);
 
-
+            //    When cliked on a folder, show that folder related songs
             folderDiv.addEventListener('click', () => {
 
-                window.location.href = folderHref;
             })
 
         }
