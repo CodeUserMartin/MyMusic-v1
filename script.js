@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const displaySongFolderContainerEl = document.getElementById('display-folders');
     const displaySongListContainerEl = document.getElementById('display-songs-container');
+    const prevBtnEl = document.getElementById('prev-btn');
+
+    let currrentSong = new Audio;
+    let currentSongIndex = 0;
 
 
     fetchFolders();
@@ -82,9 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchFolderSongs(folderDiv) {
 
         let folderClickedHref = folderDiv.getAttribute('data-href');
-        console.log(folderClickedHref);
-
-
+        // console.log(folderClickedHref);
 
         try {
 
@@ -100,11 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             let anchorTag = songsDiv.getElementsByTagName('a');
-            // console.log(anchorTag);
+            // console.log("anchorTag: ", anchorTag);
 
 
             let extractSongsFromText = [...anchorTag].filter(s => s.classList.contains('icon-mp3'));
-            console.log(extractSongsFromText);
+            // console.log("Extracted-Songs: ", extractSongsFromText);
 
 
             let songsList = extractSongsFromText.forEach((song) => renderSongs(song));
@@ -119,9 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // To render songs of a specific folder on click
     function renderSongs(song) {
 
-        // console.log(song.title);
+        // console.log("Song: ", song);
+
 
         let songTitle = song.title;
+        let songHref = song.href;
+        // console.log(songHref);
 
         displaySongFolderContainerEl.classList.add('hidden');
         displaySongListContainerEl.classList.remove('hidden');
@@ -138,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div>
                     <p class="text-white text-sm p-1 md:text-md">${songTitle}</p>
+                    <span song-href = "${songHref}"></span>
                 </div>
                 <div class="w-[30px] invert">
                     <img src="src/images/unlike-heart-icon.png" alt="unliked-heart-icon">
@@ -147,9 +153,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         displaySongListContainerEl.appendChild(songDiv);
 
-        console.log(songDiv);
-        
+        // console.log(songDiv);
+        // console.log("songDivHref : ", songHref);
+
+
+        prevBtnEl.addEventListener('click', () => {
+
+            // adding hidden class over to gird to the songList container 
+            displaySongListContainerEl.classList.remove('grid');
+            displaySongListContainerEl.classList.add('hidden');
+
+            // shwoing displayFolder constainer
+            displaySongFolderContainerEl.classList.remove('hidden');
+            displaySongFolderContainerEl.classList.add('grid');
+
+        })
+
 
     }
+
+
 
 });
