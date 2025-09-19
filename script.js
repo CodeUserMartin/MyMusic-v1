@@ -6,12 +6,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const displaySongListContainerEl = document.getElementById('display-songs-container');
     const prevBtnEl = document.getElementById('prev-btn');
 
-    let currrentSong = new Audio;
+
+    const currSongNameEl = document.getElementById('curr-song-name');
+
+
+    // let currrentSong = new Audio;
     let currentSongIndex = 0;
 
 
+    let foldersArray = [];
+    let folderSongsArray = [];
+
+    // console.log("Before pushing any ssongs to the array: ", folderSongsArray.length);
+
+
+
     fetchFolders();
-    renderFolder();
 
     // To fetch folders 
     async function fetchFolders() {
@@ -41,7 +51,17 @@ document.addEventListener('DOMContentLoaded', () => {
             let newFolders = folderLink.slice(1, folderLink.length);
             // console.log("newFolder: ", newFolders);
 
-            newFolders.forEach((folder) => renderFolder(folder));
+            // newFolders.forEach((folder) => renderFolder(folder));
+
+            // Pushing the fetched folders to the newly array folderArray
+            foldersArray.push(...newFolders);
+
+            // console.log("Inside function length", foldersArray.length);
+            // console.log("FolderArray insdie function", foldersArray);
+            // console.log(foldersArray[0]);
+
+            // Calling render Function after the async task in done
+            renderFolder();
 
         } catch (error) {
             console.log("fail to fetch songs", error);
@@ -49,44 +69,63 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // console.log("Outside function length", foldersArray.length);
+
+
+
+
     // RenderFolders to the DOM
-    function renderFolder(folder) {
+    function renderFolder() {
 
         // displaySongFolderContainerEl.innerHTML = '';
         displaySongFolderContainerEl.classList.remove('hidden');
 
-        let folderHref = folder.href;
-        let folderTitle = folder.title;
+        // console.log("foldersArray outside forEach loop", foldersArray.length);
+        // console.log("0", foldersArray[0]);
+
+        // looping through the foldersArray to get the folders
+
+        foldersArray.forEach((folder) => {
+
+            // console.log("folder", folder);
+
+            let folderTitle = folder.title;
+            let folderHref = folder.href;
+
+            // console.log(folderTitle);
+            // console.log(folderHref);
 
 
 
+            // Create an div element to store each folder
 
-        // Create an div element to store each folder
+            const folderDiv = document.createElement('div');
 
-        const folderDiv = document.createElement('div');
-
-        folderDiv.setAttribute('data-href', folderHref);
+            folderDiv.setAttribute('data-href', folderHref);
 
 
-        folderDiv.innerHTML = `
+            folderDiv.innerHTML = `
             <div class = "aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black hover:cursor-pointer">
-                    <p class="text-white">${folderTitle}</p>
-                    <img src="${folderHref}/cover.jpg" alt= "${folderTitle}">
+            <p class="text-white">${folderTitle}</p>
+            <img src="${folderHref}/cover.jpg" alt= "${folderTitle}">
             </div>
             `
 
-        displaySongFolderContainerEl.appendChild(folderDiv);
+            displaySongFolderContainerEl.appendChild(folderDiv);
 
 
-        //    When cliked on a folder, show that folder related songs
-        folderDiv.addEventListener('click', () => fetchFolderSongs(folderDiv));
+            // //    When cliked on a folder, show that folder related songs
+            folderDiv.addEventListener('click', () => fetchFolderSongs(folderDiv));
+
+        });
     }
 
     // To fetch songs from a folder
     async function fetchFolderSongs(folderDiv) {
 
         let folderClickedHref = folderDiv.getAttribute('data-href');
-        // console.log(folderClickedHref);
+        // console.log();
+
 
         try {
 
@@ -109,7 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log("Extracted-Songs: ", extractSongsFromText);
 
 
-            let songsList = extractSongsFromText.forEach((song) => renderSongs(song));
+            folderSongsArray.push(...extractSongsFromText);
+            console.log("SongList: ", folderSongsArray);
+            
+            // console.log("After pusing the folder extracted songs to the array: ", folderSongsArray.length);
+
+            renderSongs();
 
         } catch (error) {
             console.log("Error fetching songs from the folder", error);
@@ -118,59 +162,113 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+
     // To render songs of a specific folder on click
-    function renderSongs(song) {
+    function renderSongs() {
 
-        // console.log("Song: ", song);
+        // Making sure to clear the already existed songs on the list 
+        displaySongListContainerEl.innerHTML = '';
 
-
-        let songTitle = song.title;
-        let songHref = song.href;
-        // console.log(songHref);
 
         displaySongFolderContainerEl.classList.add('hidden');
         displaySongListContainerEl.classList.remove('hidden');
         displaySongListContainerEl.classList.add('grid')
 
-        // displaySongListContainerEl.innerHTML = '';
+        // Looping through the clicked folderSongsArray to get the specific songs from the clicked folder
 
-        let songDiv = document.createElement('div');
 
-        songDiv.innerHTML = `
+        folderSongsArray.forEach((song) => {
+
+
+            let songTitle = song.title;
+            let songHref = song.href;
+            // console.log(songHref);
+
+
+            let songDiv = document.createElement('div');
+
+            songDiv.setAttribute('song-href', songHref);
+
+            songDiv.innerHTML = `
         <div class="border bg-gray-900 px-3 py-2 w-full flex justify-around items-center gap-3 rounded-xl hover:cursor-pointer">
-                <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center ">
-                    <img src="src/images/music-player.png" alt="music-icon">
-                </div>
-                <div>
-                    <p class="text-white text-sm p-1 md:text-md">${songTitle}</p>
-                    <span song-href = "${songHref}"></span>
-                </div>
-                <div class="w-[30px] invert">
-                    <img src="src/images/unlike-heart-icon.png" alt="unliked-heart-icon">
-                </div>
+            <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center ">
+                <img src="src/images/music-player.png" alt="music-icon">
+            </div>
+            <div>
+                <p class="text-white text-sm p-1 md:text-md">${songTitle}</p>
+            </div>
+            <div class="w-[30px] invert">
+                <img src="src/images/unlike-heart-icon.png" alt="unliked-heart-icon">
+            </div>
         </div>
         `
 
-        displaySongListContainerEl.appendChild(songDiv);
+            displaySongListContainerEl.appendChild(songDiv);
+
+
+            songDiv.addEventListener('click', () => {
+
+                // songInfo(songDiv);
+
+                let songURL = songDiv.getAttribute('song-href');
+                console.log(songURL);
+
+                let audio = new Audio(songURL);
+
+                audio.addEventListener('loadeddata', () => {
+
+                    audio.play();
+
+                    console.log("Duration: ", audio.duration);
+                    
+                })
+
+
+                // console.log(songTitle);
+                // console.log(songHref);
+
+                currSongNameEl.innerText = songTitle;
+
+
+            })
+
+        });
 
         // console.log(songDiv);
         // console.log("songDivHref : ", songHref);
 
 
+        // Prev btn logic
+        // Goes back to the folder selection screen
+        // clears the array with the songs loaded 
         prevBtnEl.addEventListener('click', () => {
+
+            // Every time we click on the prev button we reset the array to 0.
+            folderSongsArray = [];
+
+            // console.log("array length after clicking on the prev button: ", folderSongsArray.length);
 
             // adding hidden class over to gird to the songList container 
             displaySongListContainerEl.classList.remove('grid');
             displaySongListContainerEl.classList.add('hidden');
 
-            // shwoing displayFolder constainer
+            // showing displayFolder container
             displaySongFolderContainerEl.classList.remove('hidden');
             displaySongFolderContainerEl.classList.add('grid');
 
         })
-
-
     }
+
+
+
+    // function songInfo(songDiv) {
+
+    //     console.log("Hello from SongInfo: ", songDiv);
+
+    //     console.log("inside", songDiv.href);
+
+
+    // }
 
 
 
