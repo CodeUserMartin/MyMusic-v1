@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // let currrentSong = new Audio;
     let currentSongIndex = 0;
+    let currentPlayingSong;
 
 
     let foldersArray = [];
@@ -150,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             folderSongsArray.push(...extractSongsFromText);
             console.log("SongList: ", folderSongsArray);
-            
+
             // console.log("After pusing the folder extracted songs to the array: ", folderSongsArray.length);
 
             renderSongs();
@@ -206,31 +207,31 @@ document.addEventListener('DOMContentLoaded', () => {
             displaySongListContainerEl.appendChild(songDiv);
 
 
-            songDiv.addEventListener('click', () => {
-
-                // songInfo(songDiv);
-
-                let songURL = songDiv.getAttribute('song-href');
-                console.log(songURL);
-
-                let audio = new Audio(songURL);
-
-                audio.addEventListener('loadeddata', () => {
-
-                    audio.play();
-
-                    console.log("Duration: ", audio.duration);
-                    
-                })
+            songDiv.addEventListener('click', () => fetchSongInfo(songDiv, songHref, songTitle));
 
 
-                // console.log(songTitle);
-                // console.log(songHref);
 
-                currSongNameEl.innerText = songTitle;
+            //     let songURL = songDiv.getAttribute('song-href');
+            //     console.log(songURL);
+
+            //     // let audio = new Audio(songURL);
+
+            //     // audio.addEventListener('loadeddata', () => {
+
+            //     //     audio.play();
+
+            //     //     console.log("Duration: ", audio.duration);
+
+            //     // })
 
 
-            })
+            //     // console.log(songTitle);
+            //     // console.log(songHref);
+
+            //     currSongNameEl.innerText = songTitle;
+
+
+            // })
 
         });
 
@@ -261,14 +262,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // function songInfo(songDiv) {
+    function fetchSongInfo(songDiv, songHref, songTitle) {
 
-    //     console.log("Hello from SongInfo: ", songDiv);
+        // console.log("Hello from SongInfo: ", songDiv);
 
-    //     console.log("inside", songDiv.href);
+        // console.log("inside", songHref);
+
+        // Changing the currentSongName
+        currSongNameEl.innerHTML = songTitle;
 
 
-    // }
+        // Creating the audio object for the song playback
+
+        // console.log("Currentplayingsong before: ", currentPlayingSong);
+        // currentPlayingSong = songHref;
+
+        console.log("Currentplayingsong after: ", currentPlayingSong);
+
+        // Checking if the currentSong is paused in order to play the next song
+        if (currentPlayingSong) {
+            currentPlayingSong.pause();
+        }
+
+
+        currentPlayingSong = new Audio(songHref);
+        console.log("now playing new song ", currentPlayingSong);
+        currentPlayingSong.play();
+
+        currentPlayingSong.addEventListener('loadeddata', () => {
+
+
+            console.log("Duration: ", formatTime(currentPlayingSong.duration));
+
+        })
+
+
+    }
+
+    // helper function to format time (mm:ss)
+    function formatTime(seconds) {
+        let minutes = Math.floor(seconds / 60);
+        let secs = Math.floor(seconds % 60);
+        return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    }
 
 
 
