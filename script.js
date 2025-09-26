@@ -5,9 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const displaySongFolderContainerEl = document.getElementById('display-folders');
     const displaySongListContainerEl = document.getElementById('display-songs-container');
     const prevBtnEl = document.getElementById('prev-btn');
+    const nextBtnEl = document.getElementById('next-btn');
+    const playPauseBtnEl = document.getElementById('play-pause-btn');
 
 
     const currSongNameEl = document.getElementById('curr-song-name');
+    const currSongDurationEl = document.getElementById('song-duration');
 
 
     // let currrentSong = new Audio;
@@ -178,11 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Looping through the clicked folderSongsArray to get the specific songs from the clicked folder
 
 
-        folderSongsArray.forEach((song) => {
+        folderSongsArray.forEach((song, index) => {
 
 
             let songTitle = song.title;
             let songHref = song.href;
+            console.log("songIndex: ", index);
+
             // console.log(songHref);
 
 
@@ -207,9 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
             displaySongListContainerEl.appendChild(songDiv);
 
 
-            songDiv.addEventListener('click', () => fetchSongInfo(songDiv, songHref, songTitle));
-
-
+            songDiv.addEventListener('click', () => fetchSongInfo(songDiv, songHref, songTitle, index));
+            // 
 
             //     let songURL = songDiv.getAttribute('song-href');
             //     console.log(songURL);
@@ -262,14 +266,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    function fetchSongInfo(songDiv, songHref, songTitle) {
+    function fetchSongInfo(songDiv, songHref, songTitle, index) {
+        // 
 
         // console.log("Hello from SongInfo: ", songDiv);
 
         // console.log("inside", songHref);
 
-        // Changing the currentSongName
-        currSongNameEl.innerHTML = songTitle;
+        console.log("Fetch currentIndex: ", index);
+
+        console.log("2nd element song chahun ", folderSongsArray[1]);
+
+        // console.log("from fetchinfosong:", );
 
 
         // Creating the audio object for the song playback
@@ -277,22 +285,65 @@ document.addEventListener('DOMContentLoaded', () => {
         // console.log("Currentplayingsong before: ", currentPlayingSong);
         // currentPlayingSong = songHref;
 
-        console.log("Currentplayingsong after: ", currentPlayingSong);
+        // console.log("Currentplayingsong after: ", currentPlayingSong);
+
+
+        // currentSongIndex
+
+        currentSongIndex = index;
 
         // Checking if the currentSong is paused in order to play the next song
         if (currentPlayingSong) {
             currentPlayingSong.pause();
         }
 
+        // currentPlayingSong = new Audio()
+
 
         currentPlayingSong = new Audio(songHref);
         console.log("now playing new song ", currentPlayingSong);
         currentPlayingSong.play();
 
+
         currentPlayingSong.addEventListener('loadeddata', () => {
 
 
+            // Changing the currentSongName
+            currSongNameEl.innerHTML = songTitle;
+
+            // CurrentSong duration
+            currSongDurationEl.innerHTML = formatTime(currentPlayingSong.duration);
             console.log("Duration: ", formatTime(currentPlayingSong.duration));
+
+
+
+            // Player next song logic
+            console.log("nextbtn ", nextBtnEl);
+
+            console.log("Before nextBtn clicked: ", currentSongIndex);
+
+            nextBtnEl.addEventListener('click', () => {
+
+                currentSongIndex++;
+                console.log("after nextBtn clicked: ", currentSongIndex);
+
+            })
+
+
+            // Player play/pasue logic
+
+            console.log("Play-pause btn: ", playPauseBtnEl);
+
+            playPauseBtnEl.addEventListener('click', () => {
+
+                if (currentPlayingSong) {
+                    currentPlayingSong.pause();
+                    console.log("btn clicked");
+                }
+
+            })
+
+
 
         })
 
@@ -309,3 +360,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
+
+
+
+
+// let arr = [1,2,3];
+
+// arr[0] --- 1
+// arr[1] --- 2
+// arr[2] --- 3
+
+
+// currentSongindex = 1
+// arrayElement = 2nd element in the array
+// folderFetchSong = [em1, em2, em3]
+
+
+
+// currentsongindex = 0
+
+
+// arr = [asa nhi, chahaun]
+// currsongindex = 1
+
+
+// arr[0] = asa nhi
+// arr[1] = chahum
+
+
