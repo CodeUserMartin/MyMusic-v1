@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const displaySongFolderContainerEl = document.getElementById('display-folders');
     const displaySongListContainerEl = document.getElementById('display-songs-container');
+    const goBackBtnEl = document.getElementById('go-back-btn');
     const prevBtnEl = document.getElementById('prev-btn');
     const nextBtnEl = document.getElementById('next-btn');
     const playPauseBtnEl = document.getElementById('play-pause-btn');
@@ -72,10 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
     }
-
-    // console.log("Outside function length", foldersArray.length);
-
-
 
 
     // RenderFolders to the DOM
@@ -186,6 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let songTitle = song.title;
             let songHref = song.href;
+            // console.log("Song: ", song);
+
             console.log("songIndex: ", index);
 
             // console.log(songHref);
@@ -212,43 +211,17 @@ document.addEventListener('DOMContentLoaded', () => {
             displaySongListContainerEl.appendChild(songDiv);
 
 
-            songDiv.addEventListener('click', () => fetchSongInfo(songDiv, songHref, songTitle, index));
-            // 
-
-            //     let songURL = songDiv.getAttribute('song-href');
-            //     console.log(songURL);
-
-            //     // let audio = new Audio(songURL);
-
-            //     // audio.addEventListener('loadeddata', () => {
-
-            //     //     audio.play();
-
-            //     //     console.log("Duration: ", audio.duration);
-
-            //     // })
-
-
-            //     // console.log(songTitle);
-            //     // console.log(songHref);
-
-            //     currSongNameEl.innerText = songTitle;
-
-
-            // })
+            songDiv.addEventListener('click', () => playSong( songTitle, index));
 
         });
 
-        // console.log(songDiv);
-        // console.log("songDivHref : ", songHref);
 
-
-        // Prev btn logic
+        // goBack btn logic
         // Goes back to the folder selection screen
         // clears the array with the songs loaded 
-        prevBtnEl.addEventListener('click', () => {
+        goBackBtnEl.addEventListener('click', () => {
 
-            // Every time we click on the prev button we reset the array to 0.
+            // Every time we click on the goBack button we reset the array to 0.
             folderSongsArray = [];
 
             // console.log("array length after clicking on the prev button: ", folderSongsArray.length);
@@ -266,73 +239,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    function fetchSongInfo(songDiv, songHref, songTitle, index) {
-        // 
+    function playSong(songTitle, index) {
 
-        // console.log("Hello from SongInfo: ", songDiv);
+        console.log("Index value at start in playSong is: ", currentSongIndex);
+        // console.log("title is ", songTitle);
 
-        // console.log("inside", songHref);
 
-        console.log("Fetch currentIndex: ", index);
 
-        console.log("2nd element song chahun ", folderSongsArray[1]);
+        // console.log("current Song ULR in the playSong function:", songHref);
 
-        // console.log("from fetchinfosong:", );
+
+        // currentSongIndex is the clicked song index
+        console.log("CurrentSongIndex value now ", currentSongIndex);
+        currentSongIndex = index;
+
+        console.log("currentSongIndex value after cureentSong set to Index of the song", currentSongIndex);
 
 
         // Creating the audio object for the song playback
 
-        // console.log("Currentplayingsong before: ", currentPlayingSong);
-        // currentPlayingSong = songHref;
 
-        // console.log("Currentplayingsong after: ", currentPlayingSong);
-
-
-        // currentSongIndex
-
-        currentSongIndex = index;
-
-        // Checking if the currentSong is paused in order to play the next song
+        // if currentSong is playing we pause it using .pause from new Audio property
         if (currentPlayingSong) {
             currentPlayingSong.pause();
         }
 
-        // currentPlayingSong = new Audio()
 
 
+        // Creating a new Audio object everytime, new song is clicked 
+        songHref = folderSongsArray[currentSongIndex];
+        console.log("DemoHref is", songHref);
+        
+        
         currentPlayingSong = new Audio(songHref);
-        console.log("now playing new song ", currentPlayingSong);
+        console.log("curr song and idndex: ", currentSongIndex);
+        // console.log("Songs list: ", folderSongsArray);
+
+        // currSong = folderSongsArray[currentSongIndex];
+        // console.log("is: ", currSong);
+        // currSong = new Audio(songHref); 
+
+
+
+        console.log("now playing new song ", currentPlayingSong)
         currentPlayingSong.play();
+        // currSong.play();
 
 
         currentPlayingSong.addEventListener('loadeddata', () => {
 
 
-            // Changing the currentSongName
+            //     // Changing the currentSongName
             currSongNameEl.innerHTML = songTitle;
 
-            // CurrentSong duration
+            //     // CurrentSong duration
             currSongDurationEl.innerHTML = formatTime(currentPlayingSong.duration);
             console.log("Duration: ", formatTime(currentPlayingSong.duration));
 
 
 
-            // Player next song logic
-            console.log("nextbtn ", nextBtnEl);
+            //     // Player next song logic
+            //     // console.log("nextbtn ", nextBtnEl);
 
-            console.log("Before nextBtn clicked: ", currentSongIndex);
-
-            nextBtnEl.addEventListener('click', () => {
-
-                currentSongIndex++;
-                console.log("after nextBtn clicked: ", currentSongIndex);
-
-            })
+            console.log("Before prevBtn or nextBtn clicked value of currentSongIndex is: ", currentSongIndex);
 
 
-            // Player play/pasue logic
+            //     // Player play/pasue logic
 
-            console.log("Play-pause btn: ", playPauseBtnEl);
+            prevBtnEl.addEventListener('click', () => {
+
+                if (currentSongIndex) {
+                    currentSongIndex--;
+                    console.log("after prev clicked: ", currentSongIndex);
+
+                }
+            });
+
 
             playPauseBtnEl.addEventListener('click', () => {
 
@@ -341,23 +323,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log("btn clicked");
                 }
 
+            });
+
+            nextBtnEl.addEventListener('click', () => {
+
+
+                if (currentSongIndex) {
+                    currentSongIndex++;
+                    console.log("after nextBtn clicked: ", currentSongIndex);
+                }
+
             })
-
-
 
         })
 
+        // helper function to format time (mm:ss)
+        function formatTime(seconds) {
+            let minutes = Math.floor(seconds / 60);
+            let secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
 
     }
-
-    // helper function to format time (mm:ss)
-    function formatTime(seconds) {
-        let minutes = Math.floor(seconds / 60);
-        let secs = Math.floor(seconds % 60);
-        return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-    }
-
-
 
 });
 
