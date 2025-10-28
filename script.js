@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtnEl = document.getElementById('prev-btn');
     const nextBtnEl = document.getElementById('next-btn');
     const playPauseBtnEl = document.getElementById('play-pause-btn');
+    const playPauseIoonEl = document.getElementById('play-pause-icon');
 
 
     const currSongNameEl = document.getElementById('curr-song-name');
@@ -115,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
             displaySongFolderContainerEl.appendChild(folderDiv);
 
 
-            // //    When cliked on a folder, show that folder related songs
             folderDiv.addEventListener('click', () => fetchFolderSongs(folderDiv));
 
         });
@@ -211,7 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
             displaySongListContainerEl.appendChild(songDiv);
 
 
-            songDiv.addEventListener('click', () => playSong( songTitle, index));
+            songDiv.addEventListener('click', () => playSong(index));
+            // playSong();
 
         });
 
@@ -239,7 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    function playSong(songTitle, index) {
+    function playSong(index) {
+
+
+        console.log("Song Folder: ", folderSongsArray);
+
 
         console.log("Index value at start in playSong is: ", currentSongIndex);
         // console.log("title is ", songTitle);
@@ -250,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         // currentSongIndex is the clicked song index
-        console.log("CurrentSongIndex value now ", currentSongIndex);
+        console.log("CurrentSongIndex value now before setting ", currentSongIndex);
         currentSongIndex = index;
 
         console.log("currentSongIndex value after cureentSong set to Index of the song", currentSongIndex);
@@ -267,11 +272,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         // Creating a new Audio object everytime, new song is clicked 
-        songHref = folderSongsArray[currentSongIndex];
+        const songHref = folderSongsArray[currentSongIndex];
         console.log("DemoHref is", songHref);
-        
-        
+
+
         currentPlayingSong = new Audio(songHref);
+        playPauseIoonEl.src = "../src/images/play-btn.png"
         console.log("curr song and idndex: ", currentSongIndex);
         // console.log("Songs list: ", folderSongsArray);
 
@@ -290,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             //     // Changing the currentSongName
-            currSongNameEl.innerHTML = songTitle;
+            currSongNameEl.innerHTML = songHref.title;
 
             //     // CurrentSong duration
             currSongDurationEl.innerHTML = formatTime(currentPlayingSong.duration);
@@ -304,36 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Before prevBtn or nextBtn clicked value of currentSongIndex is: ", currentSongIndex);
 
 
-            //     // Player play/pasue logic
 
-            prevBtnEl.addEventListener('click', () => {
-
-                if (currentSongIndex) {
-                    currentSongIndex--;
-                    console.log("after prev clicked: ", currentSongIndex);
-
-                }
-            });
-
-
-            playPauseBtnEl.addEventListener('click', () => {
-
-                if (currentPlayingSong) {
-                    currentPlayingSong.pause();
-                    console.log("btn clicked");
-                }
-
-            });
-
-            nextBtnEl.addEventListener('click', () => {
-
-
-                if (currentSongIndex) {
-                    currentSongIndex++;
-                    console.log("after nextBtn clicked: ", currentSongIndex);
-                }
-
-            })
 
         })
 
@@ -345,6 +322,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     }
+
+    //     // Player play/pasue logic
+
+    prevBtnEl.addEventListener('click', () => {
+        currentSongIndex--;
+
+        if (currentSongIndex < 0) {
+            currentSongIndex = folderSongsArray.length - 1;
+        }
+
+        playSong(currentSongIndex);
+        console.log("after prev clicked: ", currentSongIndex);
+    });
+
+
+    playPauseBtnEl.addEventListener('click', () => {
+
+        if (!currentPlayingSong) return;
+
+
+        if (currentPlayingSong.paused) {
+            currentPlayingSong.play()
+            playPauseIoonEl.src = "../src/images/play-btn.png"
+            console.log("Music Playing...");
+        } else {
+            currentPlayingSong.pause();
+            playPauseIoonEl.src = "../src/images/pause-btn.png"
+            console.log("Music Paused...");
+
+        }
+
+
+
+    });
+
+    nextBtnEl.addEventListener('click', () => {
+        currentSongIndex++;
+
+        if (currentSongIndex >= folderSongsArray.length) {
+            currentSongIndex = 0;
+        }
+
+        playSong(currentSongIndex);
+        console.log("after nextBtn clicked: ", currentSongIndex);
+
+    })
+
+
+    // function playSong() {
+
+    //     // Looping through the folderSongArray 
+
+    //     folderSongsArray.forEach(song => {
+
+    //         console.log("PlaySong:", song);
+
+
+
+    //     })
+
+    //     console.log("Length rn:", folderSongsArray.length);
+
+
+    // }
 
 });
 
