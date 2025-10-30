@@ -132,7 +132,7 @@
                     </div>
                     <!-- prev btn end -->
                     <!-- play/pause btn -->
-                    <div id="play-pause-btn"class="aspect-square w-[20px] md:w-[40px] lg:w-[50px]">
+                    <div id="play-pause-btn" class="aspect-square w-[20px] md:w-[40px] lg:w-[50px]">
                         <img id="play-pause-icon" src="src/images/pause-btn.png" alt="play-btn-icon">
                     </div>
                     <!-- play,pasue btn end -->
@@ -158,13 +158,13 @@
                 <div class="flex justify-between items-center mt-2">
                     <!-- Music name -->
                     <div>
-                        <span id= "curr-song-name" class="text-[12px] md:text-lg lg:text-xl text-white">Die for you ft.Grabbitz</span>
+                        <span id="curr-song-name" class="text-[12px] md:text-lg lg:text-xl text-white">--</span>
                     </div>
                     <!-- Music name end -->
 
                     <!-- song duration timer div -->
                     <div>
-                        <span id="song-duration" class="text-white text-sm md:text-lg lg:text-xl">1:24/5:50</span>
+                        <span id="song-duration" class="text-white text-sm md:text-lg lg:text-xl">0:00/0:00</span>
                     </div>
                     <!-- song duration timer div end -->
                 </div>
@@ -184,8 +184,8 @@
                 <p class="bg-[#101E26] text-[#ECDFCC] mx-auto my-5 p-3 rounded-2xl text-4xl text-center w-[90%]">All
                     time favorite</p>
                 <!-- displaying most fav/played songs -->
-                <!-- <div
-                    class="grid grid-rows-1 gap-2 px-4 py-3 overflow-y-scroll min-h-[100px] max-h-[300px] md:max-h-[300px] lg:max-h-[600px] lg:py-7 lg:px-6">
+                <div
+                    id="fav-Song-Container" class="grid grid-rows-1 gap-2 px-4 py-3 overflow-y-scroll min-h-[100px] max-h-[300px] md:max-h-[300px] lg:max-h-[600px] lg:py-7 lg:px-6">
                     <div
                         class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
                         <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
@@ -198,115 +198,7 @@
                             <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
                         </div>
                     </div>
-                    <div
-                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-                            <img src="src/images/music-player.png" alt="music-iocn">
-                        </div>
-                        <div>
-                            <p class="text-white text-sm  md:text-lg p-2">Boku no Hero Academia - Merry-Go-Round</p>
-                        </div>
-                        <div class="w-[30px]">
-                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-                        </div>
-                    </div>
-                    <div
-                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-                            <img src="src/images/music-player.png" alt="music-iocn">
-                        </div>
-                        <div>
-                            <p class="text-white text-sm  md:text-lg p-2">Boku no Hero Academia - Merry-Go-Round</p>
-                        </div>
-                        <div class="w-[30px]">
-                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-                        </div>
-                    </div>
-                    <div
-                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-                            <img src="src/images/music-player.png" alt="music-iocn">
-                        </div>
-                        <div>
-                            <p class="text-white text-sm  md:text-lg p-2">Boku no Hero Academia - Merry-Go-Round</p>
-                        </div>
-                        <div class="w-[30px]">
-                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-                        </div>
-                    </div>
-                    <div
-                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-                            <img src="src/images/music-player.png" alt="music-iocn">
-                        </div>
-                        <div>
-                            <p class="text-white text-sm  md:text-lg p-2">Boku no Hero Academia - Merry-Go-Round</p>
-                        </div>
-                        <div class="w-[30px]">
-                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-                        </div>
-                    </div>
-                    <div
-                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-                            <img src="src/images/music-player.png" alt="music-iocn">
-                        </div>
-                        <div>
-                            <p class="text-white text-sm  md:text-lg p-2">Boku no Hero Academia - Merry-Go-Round</p>
-                        </div>
-                        <div class="w-[30px]">
-                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-                        </div>
-                    </div>
-                    <div
-                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-                            <img src="src/images/music-player.png" alt="music-iocn">
-                        </div>
-                        <div>
-                            <p class="text-white text-sm  md:text-lg p-2">Boku no Hero Academia - Merry-Go-Round</p>
-                        </div>
-                        <div class="w-[30px]">
-                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-                        </div>
-                    </div>
-                    <div
-                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-                            <img src="src/images/music-player.png" alt="music-iocn">
-                        </div>
-                        <div>
-                            <p class="text-white text-sm  md:text-lg p-2">Boku no Hero Academia - Merry-Go-Round</p>
-                        </div>
-                        <div class="w-[30px]">
-                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-                        </div>
-                    </div>
-                    <div
-                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-                            <img src="src/images/music-player.png" alt="music-iocn">
-                        </div>
-                        <div>
-                            <p class="text-white text-sm  md:text-lg p-2">Boku no Hero Academia - Merry-Go-Round</p>
-                        </div>
-                        <div class="w-[30px]">
-                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-                        </div>
-                    </div>
-                    <div
-                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-                            <img src="src/images/music-player.png" alt="music-iocn">
-                        </div>
-                        <div>
-                            <p class="text-white text-sm  md:text-lg p-2">Boku no Hero Academia - Merry-Go-Round</p>
-                        </div>
-                        <div class="w-[30px]">
-                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-                        </div>
-                    </div>
-                </div> -->
+                </div>
                 <!-- displaying most fav/played songs container end-->
             </section>
         </section>
