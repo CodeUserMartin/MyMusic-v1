@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Filtering out only the sub-folders inside the songs folder
             let folderLink = [...anchorTagFromText].filter(a => a.classList.contains('icon-directory'));
-            // console.log(folderLink);
+            console.log("New folderLink :", folderLink);
             let newFolders = folderLink.slice(1, folderLink.length);
             // console.log("newFolder: ", newFolders);
 
@@ -64,6 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Pushing the fetched folders to the newly array folderArray
             foldersArray.push(...newFolders);
+            // console.log("songsss: ", folderSongsArray);
+
 
             // console.log("Inside function length", foldersArray.length);
             // console.log("FolderArray insdie function", foldersArray);
@@ -92,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         foldersArray.forEach((folder) => {
 
-            console.log("folder", folder);
+            // console.log("folder", folder);
 
             let folderTitle = folder.title;
             let folderHref = folder.href;
@@ -148,16 +150,30 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log("anchorTag: ", anchorTag);
 
 
-            let extractSongsFromText = [...anchorTag].filter(s => s.classList.contains('icon-mp3'));
-            // console.log("Extracted-Songs: ", extractSongsFromText);
+            // let extractSongsFromText = [...anchorTag].filter(s => s.classList.contains('icon-mp3'));
+            let extractSongsFromText = [...anchorTag].filter(s => s.href.endsWith('.mp3'));
+            console.log("Extracted-Songs: ", extractSongsFromText);
 
 
-            folderSongsArray.push(...extractSongsFromText);
-            // console.log("SongList: ", folderSongsArray);
+            // folderSongsArray.push(...extractSongsFromText);
+            folderSongsArray = extractSongsFromText.map(link => ({
+                title: extractFileName(link.href),
+                href: link.href,
+                liked: false
+            }));
+            console.log("SongList: ", folderSongsArray);
+
+
 
             // console.log("After pusing the folder extracted songs to the array: ", folderSongsArray.length);
 
             renderSongs();
+
+
+            function extractFileName(href) {
+                const file = href.split("/").pop().replace(/\.[^/.]+$/, ""); // remove extension
+                return decodeURIComponent(file); // decode %20 etc.
+            }
 
 
         } catch (error) {
@@ -184,10 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         folderSongsArray.forEach((song, index) => {
 
+            // console.log("folderSong:", song.href);
+
 
             let songTitle = song.title;
             let songHref = song.href;
-            console.log("Song: ", song);
+            // console.log("SongTtitleNow: ", songTitle);
 
             // console.log("songIndex: ", index);
 
@@ -207,19 +225,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="text-white text-sm p-1 md:text-md">${songTitle}</p>
             </div>
             <div id="heart-icon" class="w-[30px] invert border-2 border-amber-600">
-                <img src="src/images/unlike-heart-icon.png" alt="unliked-heart-icon">
+                <img src="${song.liked ? `src/images/liked-heart-icon.png` : `src/images/unlike-heart-icon.png`}" alt="unliked-heart-icon" class="heart-icon">
             </div>
         </div>
         `
 
-            displaySongListContainerEl.appendChild(songDiv);
 
 
             songDiv.addEventListener('click', () => playSong(index));
             // playSong();
-            songDiv.addEventListener('click', likedSong(songDiv, songTitle));
+            songDiv.querySelector('.heart-icon').addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleLike(index)
+            })
+
+            displaySongListContainerEl.appendChild(songDiv);
+
+
+            function toggleLike(index) {
+                const song = folderSongsArray[index];
+                song.liked = !song.liked;
+
+                if (song.liked) {
+                    mostFavSongs.push(song);
+                } else {
+                    mostFavSongs = mostFavSongs.filter(s => s.href !== song.href);
+                }
+
+                renderSongs();
+                renderMostFavSongs();
+            }
 
         });
+
 
 
         // goBack btn logic
@@ -277,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         // Creating a new Audio object everytime, new song is clicked 
-        const songHref = folderSongsArray[currentSongIndex];
+        const songHref = folderSongsArray[currentSongIndex].href;
         // console.log("DemoHref is", songHref);
 
 
@@ -301,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             //     // Changing the currentSongName
-            currSongNameEl.innerHTML = songHref.title;
+            currSongNameEl.innerHTML = folderSongsArray[currentSongIndex].title;
 
             //     // CurrentSong duration
             currSongDurationEl.innerHTML = formatTime(currentPlayingSong.duration);
@@ -375,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
 
-    function likedSong(songDiv, songTitle) {
+    function likedSong(songDiv) {
 
         // console.log("inside likedSong func", folderSongsArray);
         // console.log("here ", songDiv);
@@ -388,29 +426,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //   })  
 
-        songDiv.addEventListener("click", (e) => {
+        // songDiv.addEventListener("click", (e) => {
 
-            // console.log("okay", songDiv);
+        //     // console.log("okay", songDiv);
 
-            e.stopPropagation();
-
-
-
-            // If heart icon was clicked
-            if (e.target.tagName === "IMG") {
-                // console.log("yES, IMG WAS CLICKED");
-                // console.log("yes", e.target);
-
-                mostFavSongs.push(songDiv);
-                // console.log("success adding");
-                // console.log("after adding to fav song arr", mostFavSongs);
-                renderMostFavSongs(songTitle);
-            }
+        //     e.stopPropagation();
 
 
-            // console.log("event is:", e);
-            
-        })
+
+        //     // If heart icon was clicked
+        //     if (e.target.tagName === "IMG") {
+        //         // console.log("yES, IMG WAS CLICKED");
+        //         // console.log("yes", e.target);
+
+        //         mostFavSongs.push(songDiv);
+        //         // console.log("success adding");
+        //         // console.log("after adding to fav song arr", mostFavSongs);
+        //         renderMostFavSongs(songTitle);
+        //     }
+
+
+        //     // console.log("event is:", e);
+
+        // })
+
+        // folderSongsArray.forEach((demo) => {
+        //     console.log("demo:", demo);
+
+
+        //         demo.addEventListener("click", (e) => {
+        //             //  e.stopPropagation();
+        //              console.log("clicked div insdie new foreach is:", e);
+
+        //         })
+
+
+        // })
+
+        console.log("insde liedsong: ", songDiv);
+
 
 
 
@@ -423,36 +477,36 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(mostFavSongs);
 
 
-        
-        displayFavSongContainerEl.innerHTML = '';
-        mostFavSongs.forEach((s) => {
 
-            console.log("this is from mostFavSongArr", s);
+        // displayFavSongContainerEl.innerHTML = '';
+        // mostFavSongs.forEach((s) => {
 
-            const favsongDiv = document.createElement("div");
+        // console.log("this is from mostFavSongArr", s);
 
-            favsongDiv.innerHTML = `
-            <div
-                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-                            <img src="src/images/music-player.png" alt="music-iocn">
-                        </div>
-                        <div>
-                            <p class="text-white text-sm  md:text-lg p-2">${songTitle}</p>
-                        </div>
-                        <div class="w-[30px]">
-                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-                        </div>
-            </div>`
+        // const favsongDiv = document.createElement("div");
+
+        // favsongDiv.innerHTML = `
+        // <div
+        //             class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
+        //             <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
+        //                 <img src="src/images/music-player.png" alt="music-iocn">
+        //             </div>
+        //             <div>
+        //                 <p class="text-white text-sm  md:text-lg p-2">${songTitle}</p>
+        //             </div>
+        //             <div class="w-[30px]">
+        //                 <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
+        //             </div>
+        // </div>`
 
 
-            displayFavSongContainerEl.appendChild(favsongDiv);
+        // displayFavSongContainerEl.appendChild(favsongDiv);
 
-        })
+        // })
     }
 
-    
-    
+
+
 });
 
 
