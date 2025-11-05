@@ -28,8 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // console.log("Before pushing any ssongs to the array: ", folderSongsArray.length);
 
 
-
+    console.log("Start", mostFavSongs);
+    
+    
     fetchFolders();
+    
+    // Get existing liked songs from localStorage
+    let likedSongs = JSON.parse(localStorage.getItem('likedSongs')) || [];
+    console.log("Start 2", likedSongs);
     renderMostFavSongs();
 
     // To fetch folders 
@@ -241,21 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             displaySongListContainerEl.appendChild(songDiv);
 
-
-            function toggleLike(index) {
-                const song = folderSongsArray[index];
-                song.liked = !song.liked;
-
-                if (song.liked) {
-                    mostFavSongs.push(song);
-                } else {
-                    mostFavSongs = mostFavSongs.filter(s => s.href !== song.href);
-                }
-
-                renderSongs();
-                renderMostFavSongs();
-            }
-
         });
 
 
@@ -281,6 +272,41 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    function toggleLike(index) {
+        const song = folderSongsArray[index];
+        song.liked = !song.liked;
+
+        if (song.liked) {
+            // mostFavSongs.push(song);
+            setToLocalStorage(song);
+        } else {
+            mostFavSongs = mostFavSongs.filter(s => s.href !== song.href);
+        }
+
+        renderSongs();
+        renderMostFavSongs();
+    }
+
+
+    // Setting liked song to the local storage
+    function setToLocalStorage(song) {
+
+        // Check if the song is already in the list
+        const exists = likedSongs.some(s => s.href === song.href);
+
+        // If not already liked, add it
+        if (!exists) {
+            likedSongs.push(song);
+            localStorage.setItem('likedSongs', JSON.stringify(likedSongs));
+            console.log("Song added to localStorage:", song.title);
+        }
+
+        // Optional: also push to your runtime array
+        mostFavSongs.push(song);
+        console.log("Now LikedSong: ", mostFavSongs);
+
+
+    }
 
 
     function playSong(index) {
@@ -413,96 +439,43 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
 
-    function likedSong(songDiv) {
 
-        // console.log("inside likedSong func", folderSongsArray);
-        // console.log("here ", songDiv);
-        // console.log("before addding to favsong arr", mostFavSongs);
+    function renderMostFavSongs() {
 
+        // console.log("hello.............");
+        // console.log("length of mostfavarr", mostFavSongs.length);
+        // console.log(mostFavSongs);
 
+        displayFavSongContainerEl.innerHTML = '';
+        likedSongs.forEach((likedSong) => {
 
-        //   folderSongsArray.forEach((h)=> {
-        //     console.log("liked song: ", h);
-
-        //   })  
-
-        // songDiv.addEventListener("click", (e) => {
-
-        //     // console.log("okay", songDiv);
-
-        //     e.stopPropagation();
+            // console.log("like:", likedSong.title);
 
 
+            const songTitle = likedSong.title;
 
-        //     // If heart icon was clicked
-        //     if (e.target.tagName === "IMG") {
-        //         // console.log("yES, IMG WAS CLICKED");
-        //         // console.log("yes", e.target);
+            // console.log("this is from mostFavSongArr", likedSong);
 
-        //         mostFavSongs.push(songDiv);
-        //         // console.log("success adding");
-        //         // console.log("after adding to fav song arr", mostFavSongs);
-        //         renderMostFavSongs(songTitle);
-        //     }
+            const favsongDiv = document.createElement("div");
 
-
-        //     // console.log("event is:", e);
-
-        // })
-
-        // folderSongsArray.forEach((demo) => {
-        //     console.log("demo:", demo);
-
-
-        //         demo.addEventListener("click", (e) => {
-        //             //  e.stopPropagation();
-        //              console.log("clicked div insdie new foreach is:", e);
-
-        //         })
+            favsongDiv.innerHTML = `
+            <div
+                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
+                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
+                            <img src="src/images/music-player.png" alt="music-iocn">
+                        </div>
+                        <div>
+                            <p class="text-white text-sm  md:text-lg p-2">${songTitle}</p>
+                        </div>
+                        <div class="w-[30px]">
+                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
+                        </div>
+            </div>`
 
 
-        // })
+            displayFavSongContainerEl.appendChild(favsongDiv);
 
-        console.log("insde liedsong: ", songDiv);
-
-
-
-
-    }
-
-    function renderMostFavSongs(songTitle) {
-
-        console.log("hello.............");
-        console.log("length of mostfavarr", mostFavSongs.length);
-        console.log(mostFavSongs);
-
-
-
-        // displayFavSongContainerEl.innerHTML = '';
-        // mostFavSongs.forEach((s) => {
-
-        // console.log("this is from mostFavSongArr", s);
-
-        // const favsongDiv = document.createElement("div");
-
-        // favsongDiv.innerHTML = `
-        // <div
-        //             class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-        //             <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-        //                 <img src="src/images/music-player.png" alt="music-iocn">
-        //             </div>
-        //             <div>
-        //                 <p class="text-white text-sm  md:text-lg p-2">${songTitle}</p>
-        //             </div>
-        //             <div class="w-[30px]">
-        //                 <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-        //             </div>
-        // </div>`
-
-
-        // displayFavSongContainerEl.appendChild(favsongDiv);
-
-        // })
+        })
     }
 
 
