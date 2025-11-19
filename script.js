@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const playPauseBtnEl = document.getElementById('play-pause-btn');
     const playPauseIoonEl = document.getElementById('play-pause-icon');
 
+    const searchTextEl = document.getElementById('text');
+    const searchIconEl = document.getElementById('serach-icon');
 
     const currSongNameEl = document.getElementById('curr-song-name');
     const currSongDurationEl = document.getElementById('song-duration');
@@ -26,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let foldersArray = [];
     let folderSongsArray = [];
-    let mostFavSongs = [];
 
     // console.log("Before pushing any ssongs to the array: ", folderSongsArray.length);
 
@@ -65,14 +66,25 @@ document.addEventListener('DOMContentLoaded', () => {
             // Filtering out only the sub-folders inside the songs folder
             let folderLink = [...anchorTagFromText].filter(a => a.classList.contains('icon-directory'));
             // console.log("New folderLink :", folderLink);
+
+
             let newFolders = folderLink.slice(1, folderLink.length);
             // console.log("newFolder: ", newFolders);
 
             // newFolders.forEach((folder) => renderFolder(folder));
 
+
             // Pushing the fetched folders to the newly array folderArray
-            foldersArray.push(...newFolders);
-            // console.log("songsss: ", folderSongsArray);
+            // foldersArray.push(...newFolders);
+
+            foldersArray = newFolders.map((folder, index) => {
+                return {
+                    index: index,
+                    folderTitle: folder.title,
+                    folderSongLink: folder.href
+                }
+            })
+            // console.log("songsss: ", foldersArray);
 
 
             // console.log("Inside function length", foldersArray.length);
@@ -80,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log(foldersArray[0]);
 
             // Calling render Function after the async task in done
-            renderFolder();
+            renderFolder(foldersArray);
 
         } catch (error) {
             console.log("fail to fetch songs", error);
@@ -90,9 +102,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // RenderFolders to the DOM
-    function renderFolder() {
+    function renderFolder(folders) {
 
-        // displaySongFolderContainerEl.innerHTML = '';
+        displaySongFolderContainerEl.innerHTML = '';
         displaySongFolderContainerEl.classList.remove('hidden');
 
         // console.log("foldersArray outside forEach loop", foldersArray.length);
@@ -100,15 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // looping through the foldersArray to get the folders
 
-        foldersArray.forEach((folder) => {
+        folders.forEach((folder) => {
 
             // console.log("folder", folder);
 
-            let folderTitle = folder.title;
-            let folderHref = folder.href;
-
-            // console.log(folderTitle);
-            // console.log(folderHref);
+            let folderTitle = folder.folderTitle;
+            let folderHref = folder.folderSongLink;
 
 
 
@@ -552,14 +561,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    // function updateLocalStorage() {
 
-    //   let likedToUnlikedSong = likedSongs.filter((song) => song.liked === true) 
+    searchTextEl.addEventListener('input', (e) => {
+        const value = e.target.value.trim();
 
-    //     console.log("Unliked song", likedToUnlikedSong );
+        if (value === "") {
+            renderFolder(foldersArray);
+        }
+        else {
+            searchFolder(value);
+        }
 
+    })
 
-    // }
+    function searchFolder(searchValue) {
+
+        let a = foldersArray.filter(searchFolder => searchFolder.folderTitle === searchValue);
+        // console.log(a);
+        renderFolder(a);
+
+    }
 
 
 
