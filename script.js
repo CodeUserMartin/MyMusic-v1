@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const displaySongListContainerEl = document.getElementById('display-songs-container');
     const displayFavSongContainerEl = document.getElementById("fav-Song-Container");
     const goBackBtnEl = document.getElementById('go-back-btn');
+    const goBackDivEl = document.getElementById('go-back-div');
     const prevBtnEl = document.getElementById('prev-btn');
     const nextBtnEl = document.getElementById('next-btn');
     const playPauseBtnEl = document.getElementById('play-pause-btn');
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const searchTextEl = document.getElementById('text');
     const searchIconEl = document.getElementById('serach-icon');
+    const volumeSlider = document.getElementById('volumeSlider');
 
     const currSongNameEl = document.getElementById('curr-song-name');
     const currSongDurationEl = document.getElementById('song-duration');
@@ -21,7 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressInnerBarEl = document.getElementById('progress-inner-bar');
 
 
-    // let currrentSong = new Audio;
+    //CurrentScreen Tracking Variable
+    let currScreen = 'showFolders'
+
     let currentSongIndex = 0;
     let currentPlayingSong;
 
@@ -29,16 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let foldersArray = [];
     let folderSongsArray = [];
 
-    // console.log("Before pushing any ssongs to the array: ", folderSongsArray.length);
-
-
-
-
     fetchFolders();
 
     // Get existing liked songs from localStorage
     let likedSongs = JSON.parse(localStorage.getItem('likedSongs')) || [];
-    // console.log("Start 2", likedSongs);
     renderMostFavSongs();
 
     // To fetch folders 
@@ -50,32 +48,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(url);
             const result = await response.text();
 
-
-            // console.log(result);
-
             // Create an div to store the text of the result from the server
-
             const div = document.createElement('div');
 
             div.innerHTML = result;
 
             let anchorTagFromText = div.getElementsByTagName('a');
-            // console.log(anchorTagFromText);
-            // console.log(typeof anchorTagFromText);
 
             // Filtering out only the sub-folders inside the songs folder
             let folderLink = [...anchorTagFromText].filter(a => a.classList.contains('icon-directory'));
-            // console.log("New folderLink :", folderLink);
-
 
             let newFolders = folderLink.slice(1, folderLink.length);
-            // console.log("newFolder: ", newFolders);
-
-            // newFolders.forEach((folder) => renderFolder(folder));
-
-
-            // Pushing the fetched folders to the newly array folderArray
-            // foldersArray.push(...newFolders);
 
             foldersArray = newFolders.map((folder, index) => {
                 return {
@@ -84,12 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     folderSongLink: folder.href
                 }
             })
-            // console.log("songsss: ", foldersArray);
-
-
-            // console.log("Inside function length", foldersArray.length);
-            // console.log("FolderArray insdie function", foldersArray);
-            // console.log(foldersArray[0]);
 
             // Calling render Function after the async task in done
             renderFolder(foldersArray);
@@ -103,23 +80,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // RenderFolders to the DOM
     function renderFolder(folders) {
+        currScreen = 'showFolders';
 
         displaySongFolderContainerEl.innerHTML = '';
-        displaySongFolderContainerEl.classList.remove('hidden');
-
-        // console.log("foldersArray outside forEach loop", foldersArray.length);
-        // console.log("0", foldersArray[0]);
-
-        // looping through the foldersArray to get the folders
 
         folders.forEach((folder) => {
 
-            // console.log("folder", folder);
-
             let folderTitle = folder.folderTitle;
             let folderHref = folder.folderSongLink;
-
-
 
             // Create an div element to store each folder
 
@@ -137,22 +105,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             displaySongFolderContainerEl.appendChild(folderDiv);
 
-
-            folderDiv.addEventListener('click', () => fetchFolderSongs(folderDiv));
+            folderDiv.addEventListener('click', () => fetchFolderSongs(folderHref));
 
         });
+
+
     }
 
     // To fetch songs from a folder
-    async function fetchFolderSongs(folderDiv) {
-
-        let folderClickedHref = folderDiv.getAttribute('data-href');
-        // console.log();
-
+    async function fetchFolderSongs(folderHref) {
 
         try {
 
-            let url = folderClickedHref;
+            let url = folderHref;
             let response = await fetch(url);
             let songs = await response.text();
 
@@ -160,14 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             songsDiv.innerHTML = songs;
 
-            // console.log(songsDiv);
-
-
             let anchorTag = songsDiv.getElementsByTagName('a');
-            // console.log("anchorTag: ", anchorTag);
 
-
-            // let extractSongsFromText = [...anchorTag].filter(s => s.classList.contains('icon-mp3'));
             let extractSongsFromText = [...anchorTag].filter(s => s.href.endsWith('.mp3'));
             // console.log("Extracted-Songs: ", extractSongsFromText);
 
@@ -189,31 +148,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            console.log("SongList: ", folderSongsArray);
+            renderSongs(folderSongsArray);
 
-
-
-            // console.log("After pusing the folder extracted songs to the array: ", folderSongsArray.length);
-
-            renderSongs();
-
-
+            // Helper function to format-Song-name
             function extractFileName(href) {
                 const file = href.split("/").pop().replace(/\.[^/.]+$/, ""); // remove extension
                 return decodeURIComponent(file); // decode %20 etc.
             }
 
-
         } catch (error) {
             console.log("Error fetching songs from the folder", error);
-
 
         }
     }
 
 
     // To render songs of a specific folder on click
-    function renderSongs() {
+    function renderSongs(folderSongs) {
+        currScreen = 'showFoldersSongs';
 
         // Making sure to clear the already existed songs on the list 
         displaySongListContainerEl.innerHTML = '';
@@ -223,19 +175,18 @@ document.addEventListener('DOMContentLoaded', () => {
         displaySongListContainerEl.classList.remove('hidden');
         displaySongListContainerEl.classList.add('grid');
 
+        goBackDivEl.classList.remove('hidden');
+        goBackBtnEl.classList.remove('hidden');
+        goBackDivEl.classList.add('flex');
+
 
         // Looping through the clicked folderSongsArray to get the specific songs from the clicked folder
-        folderSongsArray.forEach((song) => {
+        folderSongs.forEach((song) => {
 
             let songTitle = song.title;
             let songHref = song.href;
             let index = song.index;
             let songLiked = song.liked;
-
-
-
-
-            // console.log(songHref);
 
 
             let songDiv = document.createElement('div');
@@ -256,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         `
 
-
             songDiv.addEventListener('click', () => playSong(index));
             songDiv.querySelector('.heart-icon').addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -268,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
 
-
         // goBack btn logic
         // Goes back to the folder selection screen
         // clears the array with the songs loaded 
@@ -277,7 +226,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Every time we click on the goBack button we reset the array to 0.
             folderSongsArray = [];
 
-            // console.log("array length after clicking on the prev button: ", folderSongsArray.length);
+            //currScreen back to showFolders;
+            currScreen = 'showFolders';
+
+            // Make sure that gobackdiv is also getting hidden when going back to the folderScreen
+            goBackDivEl.classList.remove('flex');
+            goBackDivEl.classList.add('hidden');
 
             // adding hidden class over to gird to the songList container 
             displaySongListContainerEl.classList.remove('grid');
@@ -286,34 +240,24 @@ document.addEventListener('DOMContentLoaded', () => {
             // showing displayFolder container
             displaySongFolderContainerEl.classList.remove('hidden');
             displaySongFolderContainerEl.classList.add('grid');
-
         })
     }
 
-
+    // Song liked or unliked logic
     function toggleLike(index) {
         const song = folderSongsArray[index];
         console.log("song is :", song);
 
         song.liked = !song.liked;
-        // song.liked = true;
-
-        // let demo = folderSongsArray.filter(s => s === song)
-        // console.log("Demo:", demo);
-        // folderSongsArray[index].liked = true;
-
-
-        // let likedSong = JSON.parse(localStorage.getItem('likedSong')) || []
 
         if (song.liked) {
-            // console.log("mostfavsong list:", mostFavSongs);
-            // mostFavSongs.push(song);
             saveToLocalStorage(song);
         }
         else {
             likedSongs = likedSongs.filter(s => s.href !== song.href);
             console.log('Song removed success!!');
         }
+
         // Find song div
         const songDiv = document.querySelector(`[song-href="${folderSongsArray[index].href}"]`);
 
@@ -327,7 +271,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         localStorage.setItem("likedSongs", JSON.stringify(likedSongs));
 
-        // renderSongs();
         renderMostFavSongs();
     }
 
@@ -344,70 +287,26 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('likedSongs', JSON.stringify(likedSongs));
             console.log("Song added to localStorage:", song.title);
         }
-        else {
-
-
-        }
-
-        // Optional: also push to your runtime array
-        // mostFavSongs.push(song);
-        // console.log("Now LikedSong: ", mostFavSongs);
-
-
     }
 
 
+    //Play Song logic
     function playSong(index) {
 
-
-        // console.log("Song Folder: ", folderSongsArray);
-
-
-        // console.log("Index value at start in playSong is: ", currentSongIndex);
-        // console.log("title is ", songTitle);
-
-
-
-        // console.log("current Song ULR in the playSong function:", songHref);
-
-
-        // currentSongIndex is the clicked song index
-        // console.log("CurrentSongIndex value now before setting ", currentSongIndex);
         currentSongIndex = index;
-
-        // console.log("currentSongIndex value after cureentSong set to Index of the song", currentSongIndex);
-
-
-        // Creating the audio object for the song playback
-
 
         // if currentSong is playing we pause it using .pause from new Audio property
         if (currentPlayingSong) {
             currentPlayingSong.pause();
         }
 
-
-
         // Creating a new Audio object everytime, new song is clicked 
         const songHref = folderSongsArray[currentSongIndex].href;
-        // console.log("DemoHref is", songHref);
-
 
         currentPlayingSong = new Audio(songHref);
         playPauseIoonEl.src = "../src/images/play-btn.png"
-        console.log("curr song and idndex: ", currentSongIndex);
-        // console.log("Songs list: ", folderSongsArray);
 
-        // currSong = folderSongsArray[currentSongIndex];
-        // console.log("is: ", currSong);
-        // currSong = new Audio(songHref); 
-
-
-
-        console.log("now playing new song ", currentPlayingSong)
         currentPlayingSong.play();
-        // currSong.play();
-
 
         // Retriving the song data
         currentPlayingSong.addEventListener('loadeddata', () => {
@@ -442,6 +341,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         })
 
+        // Volume Slider Logic
+        // volumeSlider.addEventListener('input', () => {
+        //     if (currentPlayingSong) {
+        //         currentPlayingSong.volume = volumeSlider.value;
+        //     }
+        // });
+
         currentPlayingSong.addEventListener('ended', playNextSong);
 
         // helper function to format time (mm:ss)
@@ -453,8 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    // PlayNextSong 
-
+    // PlayNextSong logic
     function playNextSong() {
         currentSongIndex++;
 
@@ -464,8 +369,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         playSong(currentSongIndex);
     }
-
-    //     // Player play/pasue logic
 
     prevBtnEl.addEventListener('click', () => {
         currentSongIndex--;
@@ -478,24 +381,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // console.log("after prev clicked: ", currentSongIndex);
     });
 
-
+    // Player play/pasue logic
     playPauseBtnEl.addEventListener('click', () => {
 
         if (!currentPlayingSong) return;
 
-
         if (currentPlayingSong.paused) {
             currentPlayingSong.play()
             playPauseIoonEl.src = "../src/images/play-btn.png"
-            // console.log("Music Playing...");
         } else {
             currentPlayingSong.pause();
             playPauseIoonEl.src = "../src/images/pause-btn.png"
-            // console.log("Music Paused...");
-
         }
-
-
 
     });
 
@@ -511,18 +408,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     })
 
-
-
+    //Render favSong logic
     function renderMostFavSongs() {
 
-        // console.log("hello.............");
-        // console.log("length of mostfavarr", mostFavSongs.length);
-        // console.log(mostFavSongs);
-
-
-        displayFavSongContainerEl.innerHTML = '';
-
-
+        if (likedSongs.length === 0) {
+            displayFavSongContainerEl.innerHTML = 'No Favorite Songs!!';
+        }
+        else {
+            displayFavSongContainerEl.innerHTML = '';
+        }
 
         likedSongs.forEach((likedSong) => {
 
@@ -550,66 +444,34 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                 </div>`
 
-            // favsongDiv.querySelector('.heart-icon').addEventListener('click', (e) => {
-            //     e.stopPropagation();
-            //     updateLocalStorage();
-            // })
             displayFavSongContainerEl.appendChild(favsongDiv);
 
         })
-
-
     }
 
-
+    // Search bar Logic
     searchTextEl.addEventListener('input', (e) => {
-        const value = e.target.value.trim();
+        const value = e.target.value.trim().toLowerCase();
 
-        if (value === "") {
-            renderFolder(foldersArray);
+        if (currScreen === 'showFolders') {
+            if (value === "") {
+                renderFolder(foldersArray);
+            }
+            else {
+                const showFoldersResult = foldersArray.filter((searchFolder => searchFolder.folderTitle.toLowerCase().includes(value)));
+                renderFolder(showFoldersResult);
+            }
         }
-        else {
-            searchFolder(value);
+        else if (currScreen === 'showFoldersSongs') {
+            if (value === "") {
+                renderSongs(folderSongsArray);
+            }
+            else {
+                const showFoldersSongsResult = folderSongsArray.filter((searchFolderSong => searchFolderSong.title.toLowerCase().includes(value)));
+                renderSongs(showFoldersSongsResult);
+            }
         }
 
-    })
-
-    function searchFolder(searchValue) {
-
-        let a = foldersArray.filter(searchFolder => searchFolder.folderTitle === searchValue);
-        // console.log(a);
-        renderFolder(a);
-
-    }
-
-
-
+    });
+    
 });
-
-
-
-
-// let arr = [1,2,3];
-
-// arr[0] --- 1
-// arr[1] --- 2
-// arr[2] --- 3
-
-
-// currentSongindex = 1
-// arrayElement = 2nd element in the array
-// folderFetchSong = [em1, em2, em3]
-
-
-
-// currentsongindex = 0
-
-
-// arr = [asa nhi, chahaun]
-// currsongindex = 1
-
-
-// arr[0] = asa nhi
-// arr[1] = chahum
-
-

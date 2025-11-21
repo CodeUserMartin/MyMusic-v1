@@ -39,7 +39,7 @@
                     <!-- Search icon -->
                     <div class="bg-[#001F3F] rounded-2xl md:p-2.5 flex items-center gap-5 px-2">
                         <input type="text" id="text" class="w-full p-3 rounded-2xl text-amber-50 md:text-lg"
-                            placeholder="Search for folder" />
+                            placeholder="Search" />
 
                     </div>
                 </section>
@@ -48,15 +48,20 @@
         </header>
 
         <!-- Used to display folders -->
-        <section id="display-folders"
-            class="w-[95%] min-h-[100px] max-h-[270px] md:max-h-[250px] lg:max-h-[300px] overflow-y-auto mx-auto my-0 p-3 grid grid-cols-3 place-items-center gap-3 md:grid-cols-5 lg:grid-cols-6">
+        <section>
+            <div id="go-back-div"
+                class="relative top-2.5 left-3 hidden items-center gap-1 bg-black rounded-xl w-[10%] px-4 py-2 mx-9">
+                <img id="go-back-btn" src="src/images/left-arrow.png" class="invert hover:cursor-pointer"
+                    alt="prev-btn">
+                <span class="text-white bg-black px-3">Go Back</span>
+            </div>
+            <article id="display-folders"
+                class="w-[95%] min-h-[100px] max-h-[270px] md:max-h-[250px] lg:max-h-[300px] overflow-y-auto mx-auto my-0 p-3 grid grid-cols-3 place-items-center gap-3 md:grid-cols-5 lg:grid-cols-6">
+            </article>
         </section>
         <!-- Used to display folders container end-->
         <!-- Used to display the songs from folder -->
-        <div class="relative top-2.5 left-3 flex items-center gap-1 bg-black rounded-xl">
-            <img id="go-back-btn" src="src/images/left-arrow.png" class="invert hover:cursor-pointer" alt="prev-btn">
-            <span class="text-white bg-black px-3">Go Back</span>
-        </div>
+
         <section id="display-songs-container"
             class="relative w-[95%] min-h-[100px] max-h-[270px] md:max-h-[250px] lg:max-h-[300px] overflow-y-auto mx-auto my-2 px-3 pt-10 hidden grid-cols-1 place-items-center gap-3 md:grid-cols-3 lg:grid-cols-5">
 
@@ -167,6 +172,8 @@
                     <div>
                         <span id="song-duration" class="text-white text-sm md:text-lg lg:text-xl">0:00/0:00</span>
                     </div>
+                    <!-- <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1"
+                        class="w-full cursor-pointer" /> -->
                     <!-- song duration timer div end -->
                 </div>
             </div>
@@ -187,18 +194,6 @@
                 <!-- displaying most fav/played songs -->
                 <div id="fav-Song-Container"
                     class="grid grid-rows-1 gap-2 px-4 py-3 overflow-y-scroll min-h-[100px] max-h-[300px] md:max-h-[300px] lg:max-h-[600px] lg:py-7 lg:px-6">
-                    <!-- <div
-                        class=" bg-gray-900 px-3 py-2 mx-auto my-0 lg:w-[80%] h-[70px] flex justify-between items-center gap-3 rounded-xl">
-                        <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center">
-                            <img src="src/images/music-player.png" alt="music-iocn">
-                        </div>
-                        <div>
-                            <p class="text-white text-sm  md:text-lg p-2">Boku no Hero Academia - Merry-Go-Round</p>
-                        </div>
-                        <div class="w-[30px]">
-                            <img src="src/images/liked-heart-icon.png" alt="liked-heart-icon">
-                        </div>
-                    </div> -->
                 </div>
                 <!-- displaying most fav/played songs container end-->
             </section>
