@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchTextEl = document.getElementById('text');
     const searchIconEl = document.getElementById('serach-icon');
     const volumeSlider = document.getElementById('volumeSlider');
+    const favSongTextEl = document.getElementById('fav-song-text');
 
     const currSongNameEl = document.getElementById('curr-song-name');
     const currSongDurationEl = document.getElementById('song-duration');
@@ -97,8 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             folderDiv.innerHTML = `
-            <div class = "aspect-square w-[100px] md:w-[120px] lg:w-[150px] bg-black hover:cursor-pointer">
-            <p class="text-white">${folderTitle}</p>
+            <div class = "aspect-square w-[130px] md:w-[150px] lg:w-[170px] font-bold bg-[#101E26] rounded-2xl overflow-hidden hover:cursor-pointer">
+            <p class="text-[#ECDFCC] font-mono text-center p-2">${folderTitle}</p>
             <img src="${folderHref}/cover.jpg" alt= "${folderTitle}">
             </div>
             `
@@ -194,18 +195,21 @@ document.addEventListener('DOMContentLoaded', () => {
             songDiv.setAttribute('song-href', songHref);
 
             songDiv.innerHTML = `
-        <div class="border bg-gray-900 px-3 py-2 w-full flex justify-around items-center gap-3 rounded-xl hover:cursor-pointer">
+        <div class="bg-gray-900 px-3 py-2 w-[300px] md:w-[250px] lg:w-full lg:h-[90px] flex justify-around items-center gap-3 rounded-xl  hover:cursor-pointer">
             <div class="aspect-square w-[55px] md:w-[70px] lg:w-[90px] flex justify-center items-center ">
                 <img src="src/images/music-player.png" alt="music-icon">
             </div>
             <div>
-                <p class="text-white text-sm p-1 md:text-md">${songTitle}</p>
+                <p class="text-white font-mono text-sm p-1 md:text-md">${songTitle}</p>
             </div>
             <div id="heart-icon" class="w-[30px] invert">
                 <img src="${songLiked ? `src/images/liked-heart-icon.png` : `src/images/unlike-heart-icon.png`}" alt="unliked-heart-icon" class="heart-icon">
             </div>
         </div>
         `
+
+            // console.log(songDiv);
+
 
             songDiv.addEventListener('click', () => playSong(index));
             songDiv.querySelector('.heart-icon').addEventListener('click', (e) => {
@@ -342,11 +346,11 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         // Volume Slider Logic
-        // volumeSlider.addEventListener('input', () => {
-        //     if (currentPlayingSong) {
-        //         currentPlayingSong.volume = volumeSlider.value;
-        //     }
-        // });
+        volumeSlider.addEventListener('input', () => {
+            if (currentPlayingSong) {
+                currentPlayingSong.volume = volumeSlider.value;
+            }
+        });
 
         currentPlayingSong.addEventListener('ended', playNextSong);
 
@@ -412,12 +416,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderMostFavSongs() {
 
         if (likedSongs.length === 0) {
-            displayFavSongContainerEl.innerHTML = 'No Favorite Songs!!';
-        }
-        else {
+            displayFavSongContainerEl.innerHTML =
+                `<p class="text-center font-mono text-black text-2xl bg-blue-500 p-2 rounded-2xl">No Favorite Songs!!</p>`;
+        } else {
             displayFavSongContainerEl.innerHTML = '';
         }
-
         likedSongs.forEach((likedSong) => {
 
             // console.log("like:", likedSong.title);
@@ -473,5 +476,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     });
-    
+
 });
