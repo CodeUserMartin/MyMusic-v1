@@ -1,4 +1,4 @@
-console.log('JS Connected');
+// console.log('JS Connected');
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -91,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let folderHref = folder.folderSongLink;
 
             // Create an div element to store each folder
-
             const folderDiv = document.createElement('div');
 
             folderDiv.setAttribute('data-href', folderHref);
@@ -325,7 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const percent = (currentPlayingSong.currentTime / currentPlayingSong.duration) * 100;
                 progressInnerBarEl.style.width = percent + "%";
             };
-            // console.log("Duration: ", formatTime(currentPlayingSong.duration));
 
             // Click to seek
             progressOuterBarEl.addEventListener("click", (e) => {
@@ -335,13 +333,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 currentPlayingSong.currentTime = percent * currentPlayingSong.duration;
             });
-
-
-
-            // Player next song logic
-            // console.log("nextbtn ", nextBtnEl);
-
-            // console.log("Before prevBtn or nextBtn clicked value of currentSongIndex is: ", currentSongIndex);
 
         })
 
@@ -417,19 +408,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (likedSongs.length === 0) {
             displayFavSongContainerEl.innerHTML =
-                `<p class="text-center font-mono text-black text-2xl bg-blue-500 p-2 rounded-2xl">No Favorite Songs!!</p>`;
+                `<p class="text-center font-mono text-[#ECDFCC] text-2xl bg-[#101E26] px-2 py-5 rounded-2xl">No Favorite Songs!!</p>`;
         } else {
             displayFavSongContainerEl.innerHTML = '';
         }
         likedSongs.forEach((likedSong) => {
 
-            // console.log("like:", likedSong.title);
-
-
             let songTitle = likedSong.title;
             let songLiked = likedSong.liked;
-
-            // console.log("this is from mostFavSongArr", likedSong);
 
             const favsongDiv = document.createElement("div");
 
