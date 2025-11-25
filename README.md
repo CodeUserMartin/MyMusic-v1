@@ -102,10 +102,26 @@ All functionality is implemented using **pure JavaScript**.
   "SongName.mp3"
 ]
 
+```
+
 ⚠️ Important:
 The names in the JSON must match the exact file names of the audio files, or they will not appear in the UI.
 
-4. Add the folder name to folders.json
+4. Add the folder name to folders.json as:
+
+```json
+
+{
+    "folderTitle": "Folder Name",
+    "folderSongLink": "/songs/Folder Name/"
+}
+
+```
+
+
+
+
+
  
 
 
