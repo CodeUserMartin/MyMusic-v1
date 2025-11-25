@@ -45,12 +45,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
 
+            // Vercel Deployment
+            const url = `/songs/folders.json`
+            const response = await fetch(url);
+            foldersArray = await response.json();
+
+            /*
+            // Local Development
+
             const url = `/songs/`
             const response = await fetch(url);
             const result = await response.text();
 
             // Create an div to store the text of the result from the server
-            const div = document.createElement('div');
+             const div = document.createElement('div');
 
             div.innerHTML = result;
 
@@ -68,12 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     folderSongLink: folder.href
                 }
             })
+            */
 
             // Calling render Function after the async task in done
             renderFolder(foldersArray);
 
         } catch (error) {
-            console.log("fail to fetch songs", error);
+            console.error("fail to fetch songs", error);
 
         }
     }
@@ -90,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let folderTitle = folder.folderTitle;
             let folderHref = folder.folderSongLink;
 
+
             // Create an div element to store each folder
             const folderDiv = document.createElement('div');
 
@@ -105,7 +115,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             displaySongFolderContainerEl.appendChild(folderDiv);
 
-            folderDiv.addEventListener('click', () => fetchFolderSongs(folderHref));
+            // folderDiv.addEventListener('click', () => fetchFolderSongs(folderHref));
+            folderDiv.addEventListener('click', () => fetchFolderSongs(normalizeFolderHref(folderHref)));
+
+            // Encoding URL for Vercel.
+            function normalizeFolderHref(rawHref) {
+                const parts = rawHref.split("/");
+                const folderName = parts[2]; // "Folder Name" // Alan Walker
+
+                const encodedName = encodeURIComponent(folderName); // "Alan%20Walker"
+
+                return `/songs/${encodedName}/`;
+            }
 
         });
 
@@ -116,6 +137,21 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchFolderSongs(folderHref) {
 
         try {
+
+            const url = folderHref + "songs.json";
+
+            const response = await fetch(url);
+            const songsList = await response.json();
+
+            folderSongsArray = songsList.map((songName, index) => ({
+                title: songName.replace(".mp3", ""),
+                href: folderHref + songName,
+                index: index,
+                liked: likedSongs.some(s => s.href === folderHref + songName)
+            }));
+
+            /*
+            // Local Development
 
             let url = folderHref;
             let response = await fetch(url);
@@ -128,10 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let anchorTag = songsDiv.getElementsByTagName('a');
 
             let extractSongsFromText = [...anchorTag].filter(s => s.href.endsWith('.mp3'));
-            // console.log("Extracted-Songs: ", extractSongsFromText);
 
-
-            // folderSongsArray.push(...extractSongsFromText);
             folderSongsArray = extractSongsFromText.map((link, index) => {
                 return {
                     title: extractFileName(link.href),
@@ -140,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     liked: false
                 }
             });
+            */
 
             folderSongsArray.forEach(song => {
                 const match = likedSongs.find(s => s.href === song.href);
@@ -157,11 +191,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } catch (error) {
-            console.log("Error fetching songs from the folder", error);
+            console.error("Error fetching songs from the folder", error);
 
         }
     }
-
 
     // To render songs of a specific folder on click
     function renderSongs(folderSongs) {
@@ -207,9 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         `
 
-            // console.log(songDiv);
-
-
             songDiv.addEventListener('click', () => playSong(index));
             songDiv.querySelector('.heart-icon').addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -249,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Song liked or unliked logic
     function toggleLike(index) {
         const song = folderSongsArray[index];
-        console.log("song is :", song);
 
         song.liked = !song.liked;
 
@@ -258,7 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         else {
             likedSongs = likedSongs.filter(s => s.href !== song.href);
-            console.log('Song removed success!!');
         }
 
         // Find song div
@@ -288,7 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!exists) {
             likedSongs.push(song);
             localStorage.setItem('likedSongs', JSON.stringify(likedSongs));
-            console.log("Song added to localStorage:", song.title);
         }
     }
 
@@ -373,7 +400,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         playSong(currentSongIndex);
-        // console.log("after prev clicked: ", currentSongIndex);
     });
 
     // Player play/pasue logic
@@ -399,8 +425,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         playSong(currentSongIndex);
-        // console.log("after nextBtn clicked: ", currentSongIndex);
-
     })
 
     //Render favSong logic
