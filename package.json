@@ -1,9 +1,7 @@
 {
-  "scripts" : {
-  "build:css": "npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --minify",
-  "build": "npm run build:css"
-  },
-  "devDependencies": {
-    "tailwindcss": "^4.1.11"
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "tailwindcss": "^4.1.17"
   }
 }
+
